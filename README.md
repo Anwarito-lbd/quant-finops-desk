@@ -159,7 +159,7 @@ All metrics below are **directly computed from our seeded paper-analytical run (
 
 - **Quantitative Optimization & Numerics:** Python 3.12, `numpy` (vectorized Monte Carlo & covariance shrinkage), `scipy.optimize` (`SLSQP` quadratic programming + `HiGHS` linear programming for Rockafellar-Uryasev CVaR), `scipy.stats` (non-normal skewness/kurtosis adjustments for DSR), `pandas`, `matplotlib` (160-DPI dark-terminal analytical figures).
 - **Backend & Data Contracts:** FastAPI (`apps/api/main.py`), Pydantic v2 (`apps/api/schemas.py`), Uvicorn ASGI, SHA-256 canonical JSON hash-chaining (`src/quant/journal.py`).
-- **Frontend & Interactive Visualization:** Next.js 15 (App Router), React 19, TypeScript (strict mode), Tailwind CSS v4, custom responsive SVG charts (frontier curves, quantile fan bands, heatmaps), Lucide icons.
+- **Frontend & Interactive Visualization:** Next.js 15 (App Router), React 19, TypeScript (strict mode), Tailwind CSS v4, `Inter` + `JetBrains Mono` (`tabular-nums`), sticky 56px command bar, 4-workspace workstation tabs (`Cross-Desk Synthesis`, `Markowitz & CVaR Frontier`, `Monte Carlo Stress`, `SaaS Cohorts & DCF`), interactive SVG frontier/fan charts, expandable invariant rows, and SHA-256 Audit Journal drawer — guided by `frontend-design`, `web-design-guidelines`, and `ui-ux-pro-max` UX/accessibility standards (`find-skills`).
 - **Verification & Browser Automation:** `pytest` (18 invariant/API tests), `ruff`, `mypy`, `tsc --noEmit`, `eslint`, `vitest` + React Testing Library (2 component tests), Playwright (headless Chromium DOM & overflow assertions + video recording), `ffmpeg` (H.264 MP4 + Lanczos palette GIF).
 
 ---

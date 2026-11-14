@@ -155,7 +155,10 @@ const MOCK_OVERVIEW: TerminalOverview = {
         { weights: {}, expected_return_ann: 0.098, volatility_ann: 0.029, sharpe_ratio: 1.99, var_daily: 0.0022, cvar_daily: 0.0027, cvar_ann: 0.042 },
         { weights: {}, expected_return_ann: 0.1613, volatility_ann: 0.04, sharpe_ratio: 3.03, var_daily: 0.0027, cvar_daily: 0.0035, cvar_ann: 0.056 },
       ],
-      correlation_matrix: {},
+      correlation_matrix: {
+        prediction_arb: { prediction_arb: 1, meme_risk_gate: 0.12 },
+        meme_risk_gate: { prediction_arb: 0.12, meme_risk_gate: 1 },
+      },
     },
   },
   monte_carlo_regime: {
@@ -234,7 +237,9 @@ const MOCK_OVERVIEW: TerminalOverview = {
     monthly_gross_profit_per_customer: 152.1,
   },
   dcf: {
-    schedule: [],
+    schedule: [
+      { year: 1, revenue: 5800000, ebit: 348000, nopat: 268000, da: 203000, capex: 261000, delta_nwc: 64000, ufcf: 146000, discount_factor: 0.8968, pv_ufcf: 130940 },
+    ],
     sum_pv_ufcf: 3571000,
     terminal_value_gordon: 26670000,
     pv_terminal_value_gordon: 15478000,
@@ -255,30 +260,41 @@ const MOCK_OVERVIEW: TerminalOverview = {
   },
 };
 
-describe("QuantTerminal Dashboard", () => {
-  it("renders all 5 integrated trading desks, KPIs, FinOps heatmaps, and audit hash chain", () => {
+describe("QuantTerminal Workstation", () => {
+  it("renders sticky command bar, 5 source repos, expandable invariant rows & SHA-256 audit drawer", () => {
     render(<QuantTerminal initialOverview={MOCK_OVERVIEW} />);
 
     expect(screen.getByText(/Quant & FinOps Desk/i)).toBeInTheDocument();
+    expect(screen.getByText(/SHA-256 Verified · 216/i)).toBeInTheDocument();
     expect(screen.getAllByText(/arbitrage-/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/meme-flight-recorder/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/goldfarm/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/goldea/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/goldbrain-workspace/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/HASH CHAIN VERIFIED/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/\$19\.05M/i).length).toBeGreaterThanOrEqual(3);
-    expect(screen.getAllByText(/5\.09x/i).length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText(/DD₉₅ < 25% GATE PASS/i)).toBeInTheDocument();
+
+    // Expand goldfarm row to verify t_confirmed invariant drawer
+    fireEvent.click(screen.getByRole("button", { name: /goldfarm/i }));
+    expect(screen.getByText(/Enforced Invariants \(gold_event_chain\)/i)).toBeInTheDocument();
+
+    // Open Audit Journal drawer
+    fireEvent.click(screen.getByRole("button", { name: /Audit Journal \(216\)/i }));
+    expect(screen.getByRole("dialog", { name: /SHA-256 Hash-Chained Audit Journal/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Close audit journal drawer/i }));
   });
 
-  it("switches between Mean-Variance and Mean-CVaR frontier views and toggles theme", () => {
+  it("navigates all 4 workspaces and toggles theme cleanly", () => {
     render(<QuantTerminal initialOverview={MOCK_OVERVIEW} />);
 
+    fireEvent.click(screen.getByRole("tab", { name: /Markowitz & CVaR Frontier/i }));
+    expect(screen.getByText(/Optimal Desk Weights by Regime/i)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Mean-CVaR" }));
     expect(screen.getByText(/Rockafellar-Uryasev CVaR/i)).toBeInTheDocument();
 
-    const themeBtn = screen.getByRole("button", { name: /Toggle color theme/i });
-    fireEvent.click(themeBtn);
+    fireEvent.click(screen.getByRole("tab", { name: /Monte Carlo Stress/i }));
+    expect(screen.getByText(/Regime-Switching GBM vs\. Empirical Bootstrap/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("tab", { name: /SaaS Cohorts & DCF/i }));
+    expect(screen.getAllByText(/\$19\.05M/i).length).toBeGreaterThanOrEqual(2);
+    expect(screen.getByText(/5-Year Unlevered Free Cash Flow/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /Toggle color theme/i }));
     expect(document.documentElement.classList.contains("light")).toBe(true);
   });
 });

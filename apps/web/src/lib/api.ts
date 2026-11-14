@@ -47,6 +47,7 @@ export function postMonteCarlo(payload: {
   sigma_calm_ann: number;
   mu_stress_ann: number;
   sigma_stress_ann: number;
+  p_stay_stress?: number;
 }): Promise<MonteCarloResult> {
   return requestJson<MonteCarloResult>("/api/v1/quant/montecarlo", {
     method: "POST",

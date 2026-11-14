@@ -47,6 +47,13 @@ Capital generated or buffered by systematic desks supports operating SaaS/ecomme
 - **Cohort Engine (`cohorts.py`)**: 12-month logo and net-dollar retention matrices, gross-margin-adjusted LTV (`$5,850`), CAC (`$1,150`), LTV/CAC (`5.09x`), Payback (`7.56 months`), Burn Multiple (`0.72x`), and Rule of 40 (`56.0%`).
 - **5-Year DCF Engine (`dcf.py`)**: Projects NOPAT, D&A, CapEx, and $\Delta\text{NWC}$ into UFCF, solving both Gordon Growth (`$19.05M` EV, `$20.15M` Equity Value, `$20.15`/share) and Exit EBITDA Multiple (`14.0x` -> `$32.95M` EV) across a $5 \times 5$ WACC ($9.5\%\text{–}13.5\%$) $\times$ Terminal Growth ($2.0\%\text{–}4.0\%$) grid.
 
+### 2.5 Skills-Guided Workstation UI/UX (`apps/web/`)
+
+Using `npx skills find` (`frontend-design`, `web-design-guidelines`, `ui-ux-pro-max`), the Next.js 15 frontend was architected as an uncluttered institutional workstation rather than a single scrolling card dump:
+- **Sticky 56px Command Topbar**: Houses brand identity, live `SHA-256 Verified · 216` audit pill, Paper-Only badge, and refined dark/light theme switcher (`Inter` + `JetBrains Mono` with `tabular-nums`).
+- **4-Workspace Tabbed Navigation (`?tab=` URL-synced)**: Isolates `Cross-Desk Synthesis`, `Markowitz & CVaR Frontier` (interactive node readout, weight bars, correlation heatmap), `Monte Carlo Stress` (interactive day-quantile scrubber & Regime vs. Bootstrap comparison), and `SaaS Cohorts & DCF` (5-year UFCF schedule + interactive WACC × Terminal Growth grid).
+- **Expandable Invariant & Audit Drawers**: Clicking any strategy row reveals its enforced `t_formed`/`t_confirmed` or risk-ladder invariants; the slide-over SHA-256 Audit Journal drawer provides full tamper-evident event inspection with `overscroll-behavior: contain` and `prefers-reduced-motion` compliance.
+
 ---
 
 ## 3. Verification & Safety Guarantees
