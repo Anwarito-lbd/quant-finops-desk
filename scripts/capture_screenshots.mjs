@@ -34,7 +34,7 @@ async function main() {
   const consoleErrors = [];
   const pageErrors = [];
 
-  // 1. Desktop screenshot + recorded walkthrough video
+  // 1. Desktop 1440x900 screenshot + full 4-tab workstation walkthrough video
   const desktopCtx = await browser.newContext({
     viewport: { width: 1440, height: 900 },
     deviceScaleFactor: 1,
@@ -47,7 +47,7 @@ async function main() {
   page.on("pageerror", (err) => pageErrors.push(err.message));
 
   await page.goto(BASE_URL, { waitUntil: "networkidle", timeout: 30000 });
-  await page.waitForSelector("text=HASH CHAIN VERIFIED", { timeout: 20000 });
+  await page.waitForSelector("text=SHA-256 Verified", { timeout: 20000 });
   await page.waitForTimeout(700);
 
   const overflowDesktop = await page.evaluate(
@@ -62,29 +62,38 @@ async function main() {
     fullPage: true,
   });
 
-  // Walkthrough interactions for recorded video
-  await page.getByRole("button", { name: "Mean-CVaR" }).click();
-  await page.waitForTimeout(800);
-  await page.getByRole("button", { name: "Solve" }).click();
-  await page.waitForTimeout(900);
-  await page.getByRole("button", { name: "Stress" }).click();
-  await page.waitForTimeout(900);
-
-  await page.evaluate(() => window.scrollTo({ top: 540, behavior: "smooth" }));
-  await page.waitForTimeout(900);
-  await page.evaluate(() => window.scrollTo({ top: 1080, behavior: "smooth" }));
-  await page.waitForTimeout(900);
-  await page.getByRole("button", { name: "Recalculate FinOps" }).click();
-  await page.waitForTimeout(900);
-
-  await page.evaluate(() => window.scrollTo({ top: 1600, behavior: "smooth" }));
-  await page.waitForTimeout(800);
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+  // Walkthrough across all 4 workspaces + drawers
+  await page.getByRole("button", { name: /goldfarm/i }).click();
   await page.waitForTimeout(700);
-  await page.getByRole("button", { name: /Toggle color theme/i }).click();
+  await page.getByRole("button", { name: /Audit Journal/i }).click();
+  await page.waitForTimeout(900);
+  await page.getByRole("button", { name: /Close audit journal drawer/i }).click();
+  await page.waitForTimeout(500);
+
+  await page.getByRole("tab", { name: /Markowitz & CVaR Frontier/i }).click();
+  await page.waitForTimeout(700);
+  await page.getByRole("button", { name: "Mean-CVaR" }).click();
+  await page.waitForTimeout(700);
+  await page.getByRole("button", { name: "Solve" }).click();
   await page.waitForTimeout(800);
-  await page.getByRole("button", { name: /Toggle color theme/i }).click();
-  await page.waitForTimeout(600);
+
+  await page.getByRole("tab", { name: /Monte Carlo Stress/i }).click();
+  await page.waitForTimeout(700);
+  await page.getByRole("button", { name: "Stress" }).click();
+  await page.waitForTimeout(800);
+
+  await page.getByRole("tab", { name: /SaaS Cohorts & DCF/i }).click();
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "Recalculate FinOps" }).click();
+  await page.waitForTimeout(800);
+
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.getByRole("tab", { name: /Cross-Desk Synthesis/i }).click();
+  await page.waitForTimeout(500);
+  await page.getByRole("button", { name: /Toggle color theme/i }).click({ force: true });
+  await page.waitForTimeout(700);
+  await page.getByRole("button", { name: /Toggle color theme/i }).click({ force: true });
+  await page.waitForTimeout(500);
 
   const video = page.video();
   await desktopCtx.close();
@@ -110,7 +119,7 @@ async function main() {
   mPage.on("pageerror", (err) => pageErrors.push(err.message));
 
   await mPage.goto(BASE_URL, { waitUntil: "networkidle", timeout: 30000 });
-  await mPage.waitForSelector("text=HASH CHAIN VERIFIED", { timeout: 20000 });
+  await mPage.waitForSelector("text=Cross-Repo Strategy Adapter Hub", { timeout: 20000 });
   await mPage.waitForTimeout(500);
 
   const overflowMobile = await mPage.evaluate(
@@ -132,7 +141,7 @@ async function main() {
       `Browser errors detected: console=${JSON.stringify(consoleErrors)}, page=${JSON.stringify(pageErrors)}`
     );
   }
-  console.log("Captured desktop, mobile, and walkthrough video successfully with 0 browser errors.");
+  console.log("Captured upgraded desktop, mobile, and 4-workspace walkthrough video with 0 browser errors.");
 }
 
 main().catch((err) => {

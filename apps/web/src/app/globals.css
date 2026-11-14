@@ -1,44 +1,86 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #090d16;
-  --bg-card: #111827;
-  --bg-elevated: #172033;
-  --border-subtle: #243047;
+  color-scheme: dark;
+  --bg-canvas: #070b12;
+  --bg-surface: #0e1420;
+  --bg-elevated: #151e2e;
+  --bg-hover: #1b263a;
+  --border-subtle: #222f46;
+  --border-strong: #324463;
   --text-primary: #f1f5f9;
-  --text-muted: #94a3b8;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8b9bb4;
   --accent-cyan: #38bdf8;
-  --accent-emerald: #22c55e;
-  --accent-amber: #facc15;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
   --accent-violet: #a855f7;
+  --accent-rose: #f43f5e;
 }
 
 html.light {
-  --bg-primary: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-elevated: #e2e8f0;
-  --border-subtle: #cbd5e1;
+  color-scheme: light;
+  --bg-canvas: #f4f6fa;
+  --bg-surface: #ffffff;
+  --bg-elevated: #eef2f7;
+  --bg-hover: #e2e8f0;
+  --border-subtle: #d5dde8;
+  --border-strong: #b8c4d4;
   --text-primary: #0f172a;
-  --text-muted: #475569;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
   --accent-cyan: #0284c7;
-  --accent-emerald: #16a34a;
-  --accent-amber: #ca8a04;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
   --accent-violet: #7e22ce;
+  --accent-rose: #e11d48;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-canvas);
   color: var(--text-primary);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.terminal-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 0.75rem;
+.font-mono-num {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+.workstation-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.75rem;
+}
+
+.workstation-subcard {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.5rem;
+}
+
+.touch-target {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
